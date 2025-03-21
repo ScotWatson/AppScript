@@ -27,7 +27,7 @@ controlled.then(() => { console.log("controlled"); });
     urlChannel.port1.addEventListener("message", resolve);
     urlChannel.port1.start();
   });
-  const contents = blobScript.arrayBuffer();
+  const contents = await blobScript.arrayBuffer();
   urlChannel.port1.postMessage({
     method: "add",
     url: "https://my-modules/test.mjs",

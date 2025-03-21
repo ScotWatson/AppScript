@@ -7,7 +7,7 @@ import * as Main from "./main.mjs";
 import * as AppScript from "./appScript@20250321.mjs";
 
 const script = "export function hello() { console.log(\"Hello World!\"); }";
-const controlled = await new Promise((resolve) => {
+const controlled = new Promise((resolve) => {
   navigator.serviceWorker.addEventListener("controllerchange", resolve)
 });
 navigator.serviceWorker.register("sw.js");

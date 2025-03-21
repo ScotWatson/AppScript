@@ -28,8 +28,9 @@ self.addEventListener("message", (evt) => {
 });
 
 function urlPortHandler(evt) {
-  resources.set(evt.data.url, evt.data.blob);
+  resources.set(evt.data.url, evt.data.contents);
   evt.source.postMessage({
-    
+    type: "added",
+    url: evt.data.url,
   });
 }

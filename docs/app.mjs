@@ -28,19 +28,20 @@ controlled.then(() => { console.log("controlled"); });
     urlChannel.port1.start();
   });
   const contents = await blobScript.arrayBuffer();
-  urlChannel.port1.postMessage({
-    method: "add",
-    url: "https://my-modules/test.mjs",
-    contentType: blobScript.type,
-    contents,
-  }, [ contents ]);
-  await new Promise((resolve) => {
+  const ack = new Promise((resolve) => {
     urlChannel.port1.postMessage("message", (evt) => {
       if ((evt.data.type === "added") && (evt.data.url === "https://my-modules/test.mjs")) {
          resolve();
       }
     });
   });
+  urlChannel.port1.postMessage({
+    method: "add",
+    url: "https://my-modules/test.mjs",
+    contentType: blobScript.type,
+    contents,
+  }, [ contents ]);
+  await ack;
   const test = await import("https://my-modules/test.mjs");
   test.hello();
 })();

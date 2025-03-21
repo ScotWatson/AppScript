@@ -10,6 +10,27 @@ const script = "export function hello() { console.log(\"Hello World!\"); }";
 navigator.serviceWorker.register("sw.js");
 (async () => {
   const registration = await navigator.serviceWorker.ready();
-  AppScript.generateCode(script);
-  registration.active.postMessage();
+  const blobScript = AppScript.generateCode(script);
+  const urlChannel = new MessageChannel();
+  registration.active.postMessage({
+    name: "url",
+    port: urlChannel.port2,
+  }, [ urlChannel.port2 ]);
+  await new Promise((resolve) => {
+    urlChannel.port1.addEventListener("message", () => { resolve(); });
+  });
+  urlChannel.port1.postMessage({
+    method: "add",
+    url: "https://my-modules/test.mjs",
+    contents: blobScript,
+  }, [ blobScript ]);
+  await new Promise((resolve) => {
+    urlChannel.port1.postMessage("message", (evt) => {
+      if ((evt.data.type === "added") && (evt.data.url === "https://my-modules/test.mjs")) {
+         resolve();
+      }
+    });
+  });
+  const test = await import("https://my-modules/test.mjs");
+  test.hello();
 });

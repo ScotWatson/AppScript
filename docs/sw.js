@@ -31,6 +31,8 @@ self.addEventListener("message", (evt) => {
     case "url":
       urlPort = evt.data.port;
       urlPort.addEventListener("message", urlPortHandler);
+      urlPort.start();
+      urlPort.postMessage(null);
       break;
     default:
       throw new Error("unrecognized port name");

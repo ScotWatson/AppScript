@@ -19,11 +19,10 @@ self.addEventListener("activate", (evt) => {
 self.addEventListener("fetch", (evt) => {
   const resource = resources.get(evt.request.url);
   if (resource) {
-    evt.respondWith(new Response({
-      body: resource,
-    }));
+    evt.respondWith(new Response(resource));
+  } else {
+    evt.respondWith(fetch(evt.request));
   }
-  evt.respondWith(fetch(evt.request));
 });
 
 self.addEventListener("message", (evt) => {

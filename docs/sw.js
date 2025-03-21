@@ -20,14 +20,16 @@ self.addEventListener("message", (evt) => {
   switch (evt.data.name) {
     case "url":
       urlPort = evt.data.port;
-      wrlPort.add
+      urlPort.addEventListener("message", urlPortHandler);
       break;
     default:
-      
+      throw new Error("unrecognized port name");
   }
-  resources.set(evt.data.url)
 });
 
 function urlPortHandler(evt) {
-  
+  resources.set(evt.data.url, evt.data.blob);
+  evt.source.postMessage({
+    
+  });
 }

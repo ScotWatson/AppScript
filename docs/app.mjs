@@ -19,7 +19,7 @@ controlled.then(() => { console.log("controlled"); });
   console.log("controlled");
   const blobScript = AppScript.generateCode(script);
   const urlChannel = new MessageChannel();
-  registration.active.postMessage({
+  navigator.serviceWorker.controller.postMessage({
     name: "url",
     port: urlChannel.port2,
   }, [ urlChannel.port2 ]);

@@ -12,7 +12,8 @@ const controlled = new Promise((resolve) => {
 });
 navigator.serviceWorker.register("sw.js");
 console.log("registering");
-navigator.serviceWorker.ready().then(() => { console.log("service worker ready"); });
+navigator.serviceWorker.ready.then(() => { console.log("service worker ready"); });
+controlled.then(() => { console.log("controlled"); });
 (async () => {
   await controlled;
   console.log("controlled");

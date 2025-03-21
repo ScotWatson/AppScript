@@ -6,9 +6,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 let urlPort;
 const resources = new Map();
 
-self.addEventListener("fetch", (evt) => {
+self.addEventListener("install", (evt) => {
   urlPort = null;
+  console.log("sw.js installed");
 });
+
+self.addEventListener("activate", (evt) => {
+  self.clients.claim();
+  console.log("sw.js activated");
+});
+
 self.addEventListener("fetch", (evt) => {
   const resource = resources.get(evt.request.url);
   if (resource) {

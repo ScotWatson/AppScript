@@ -8,15 +8,15 @@ import * as AppScript from "./appScript@20250321.mjs";
 
 const script = "export function hello() { console.log(\"Hello World!\"); }";
 const controlled = new Promise((resolve) => {
-  navigator.serviceWorker.addEventListener("controllerchange", resolve)
+  if (navigator.serviceWorker.controller !== null) {
+    resolve();
+    return;
+  }
+  navigator.serviceWorker.addEventListener("controllerchange", resolve);
 });
 navigator.serviceWorker.register("sw.js");
-console.log("registering");
-navigator.serviceWorker.ready.then(() => { console.log("service worker ready"); });
-controlled.then(() => { console.log("controlled"); });
 (async () => {
   await controlled;
-  console.log("controlled");
   const blobScript = AppScript.generateCode(script);
   const urlChannel = new MessageChannel();
   navigator.serviceWorker.controller.postMessage({

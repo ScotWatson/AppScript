@@ -24,7 +24,8 @@ controlled.then(() => { console.log("controlled"); });
     port: urlChannel.port2,
   }, [ urlChannel.port2 ]);
   await new Promise((resolve) => {
-    urlChannel.port1.addEventListener("message", () => { resolve(); });
+    urlChannel.port1.addEventListener("message", resolve);
+    urlChannel.port1.start();
   });
   urlChannel.port1.postMessage({
     method: "add",

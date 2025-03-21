@@ -4,7 +4,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 import * as Main from "./main.mjs";
-import * as AppScript from "./20250320/index.mjs";
+import * as AppScript from "./appScript@20250321.mjs";
 
 const script = "export function hello() { console.log(\"Hello World!\"); }";
 navigator.serviceWorker.register("sw.js");

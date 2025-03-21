@@ -11,6 +11,8 @@ const controlled = await new Promise((resolve) => {
   navigator.serviceWorker.addEventListener("controllerchange", resolve)
 });
 navigator.serviceWorker.register("sw.js");
+console.log("registering");
+navigator.serviceWorker.ready().then(() => { console.log("service worker ready"); });
 (async () => {
   await controlled;
   console.log("controlled");

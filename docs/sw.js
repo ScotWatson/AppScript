@@ -3,17 +3,20 @@
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-const urlPort = null;
+let urlPort;
 const resources = new Map();
 
-self.addEventlListener("fetch", (request) => {
-  const resource = resources.get(request.url);
+self.addEventListener("fetch", (evt) => {
+  urlPort = null;
+});
+self.addEventListener("fetch", (evt) => {
+  const resource = resources.get(evt.request.url);
   if (resource) {
-    return new Response({
+    evt.respondWith(new Response({
       body: resource,
-    });
+    }));
   }
-  return fetch(request);
+  evt.respondWith(fetch(evt.request));
 });
 
 self.addEventListener("message", (evt) => {
@@ -24,7 +27,7 @@ self.addEventListener("message", (evt) => {
       break;
     default:
       throw new Error("unrecognized port name");
-  }
+  };
 });
 
 function urlPortHandler(evt) {

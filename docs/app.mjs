@@ -40,4 +40,4 @@ controlled.then(() => { console.log("controlled"); });
   });
   const test = await import("https://my-modules/test.mjs");
   test.hello();
-});
+})();

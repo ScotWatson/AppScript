@@ -27,11 +27,13 @@ controlled.then(() => { console.log("controlled"); });
     urlChannel.port1.addEventListener("message", resolve);
     urlChannel.port1.start();
   });
+  const contents = blobScript.arrayBuffer();
   urlChannel.port1.postMessage({
     method: "add",
     url: "https://my-modules/test.mjs",
-    contents: blobScript,
-  }, [ blobScript ]);
+    contentType: blobScript.type,
+    contents,
+  }, [ contents ]);
   await new Promise((resolve) => {
     urlChannel.port1.postMessage("message", (evt) => {
       if ((evt.data.type === "added") && (evt.data.url === "https://my-modules/test.mjs")) {

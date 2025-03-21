@@ -29,7 +29,7 @@ controlled.then(() => { console.log("controlled"); });
   });
   const contents = await blobScript.arrayBuffer();
   const ack = new Promise((resolve) => {
-    urlChannel.port1.postMessage("message", (evt) => {
+    urlChannel.port1.addEventListener("message", (evt) => {
       if ((evt.data.type === "added") && (evt.data.url === "https://my-modules/test.mjs")) {
          resolve();
       }

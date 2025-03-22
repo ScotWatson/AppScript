@@ -4,5 +4,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 export function generateCode(script) {
+  for (const char of script) {
+    if (isAlpha(char) || isNumber(char) || (char === "_")) {
+      // identifier or keyword or numeric constant
+    } else {
+      // symbol
+    }
+  }
   return new Blob([ script ], { type: "application/javascript" });
 }
